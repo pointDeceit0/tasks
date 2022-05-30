@@ -1,0 +1,18 @@
+hello.kt
+
+bin
+
+build.txt
+
+lib
+
+license
+
+# Default ignored files
+/shelf/
+/workspace.xml
+
+*.jar 
+
+*.exe
+
