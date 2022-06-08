@@ -16,3 +16,8 @@ license
 
 *.exe
 
+./*
+
+test.py
+
+test2.py
