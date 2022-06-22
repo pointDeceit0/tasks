@@ -1,3 +1,3 @@
 # HELP
 
-Stepic course is algorythm course on stepic platform
+Stepic course is algorithm course on stepic platform
