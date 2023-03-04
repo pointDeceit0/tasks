@@ -1,5 +1,9 @@
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
+        '''
+        time  --- O(n * m)
+        space --- O(n)
+        '''
         cur, prev = [1] * n, [1] * n
         
         for _ in range(m - 2, -1, -1):
