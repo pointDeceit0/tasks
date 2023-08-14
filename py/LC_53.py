@@ -1,28 +1,35 @@
-class List(list):
-    ...
-
-
-class Solution:
-    def maxSubArray(self, nums: List[int]) -> int:
+class Solution(object):
+    def maxSubArray(self, nums):
         """
-            time  O(n)
-            space O(1)
-        
+        It turns out that algorithm I wrote is called Kadane's algorithm 
         """
-        cur_num = 0
-        max_num = nums[0]
-        for num in nums:
-            if cur_num < 0: cur_num = 0
-                
-            cur_num += num
-            max_num = max(max_num, cur_num)
-            
-        return max_num
-
-
-a = Solution()
-
-print(a.maxSubArray([-2,1,-3,4,-1,2,1,-5,4]))
-print(a.maxSubArray([1]))
-print(a.maxSubArray([5,4,-1,7,8]))
+        ans, prev = nums[0], nums[0]
         
+        for i in range(1, len(nums)):
+            prev = max(nums[i], nums[i] + prev)
+            ans = max(prev, ans)
+
+        return ans
+
+
+
+        '''
+        [-2,1,-3,4,-1,2,1,-5,4]
+        [4,-1,2,1]
+        '''
+
+
+def test():
+    s = Solution()
+
+    assert s.maxSubArray([-2,1,-3,4,-1,2,1,-5,4]) == 6
+    assert s.maxSubArray([5,4,-1,7,8]) == 23
+    assert s.maxSubArray([1]) == 1
+
+
+def main():
+    test()
+
+
+if __name__ == "__main__":
+    main()

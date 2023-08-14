@@ -1,30 +1,31 @@
-class List(list):
-    pass
-
-class Solution:
-    def maxProduct(self, nums: List[int]) -> int:
+class Solution(object):
+    def maxProduct(self, nums):
+        min_val, max_val, ans = nums[0], nums[0], nums[0]
         
-        s = max(nums)  
-        m = M = 1
-        for num in nums:
-            if num == 0:
-                M = m = 1
+        for i in range(1, len(nums)):
 
-            cur_max = M * num
-            M = max(cur_max, num * m, num)
-            m = min(cur_max, num * m, num)
+            max_val, min_val = max(nums[i], max_val * nums[i], min_val * nums[i]), min(nums[i], min_val * nums[i], max_val * nums[i])
+            ans = max(ans, max_val)
 
-            s = max(s, M, m)
-
-        return s 
+        return ans 
 
 
-a = Solution()
+def test():
+    s = Solution()
 
-print(a.maxProduct([2,3,-2,4]))
-print(a.maxProduct([-1, -1]))
-print(a.maxProduct([2,3,-2, 4, -3, 0, 6, 20]))
-print(a.maxProduct([-2,0,-1]))
-print(a.maxProduct([2]))
-print(a.maxProduct([2,-5,-2,-4,3]))
-print(a.maxProduct([3,-2,-10,-8,4]))
+    assert s.maxProduct([-1, -2, -3]) == 6 
+    assert s.maxProduct([-2,0,-1]) == 0 
+    assert s.maxProduct([2,3,-2,4]) == 6
+    assert s.maxProduct([2, -3, 4, -2, 3, -1, 2]) == 144
+    assert s.maxProduct([2, -3, 4, -2, 3, -1, 2, -1]) == 288
+    assert s.maxProduct([2, -3, 4, -2, 0, 3, -1, 2, -1]) == 48
+    assert s.maxProduct([2,-5,-2,-4,3]) == 24
+    #assert s.maxProduct() == 
+
+
+def main():
+    test()
+
+
+if __name__ == "__main__":
+    main()
