@@ -5,47 +5,39 @@ class Solution:
     def search(self, nums: List[int], target: int) -> int:
         l, r = 0, len(nums) - 1
 
-        """
-        time complexity  --- O(log n)
-        space complexity --- O(1)
-        
-        """
-        while l != r:
-            m = (l + r) // 2
+        while l < r:
+            mid = (l + r) // 2
+            if nums[l] <= nums[mid]:
+                if nums[l] <= target < nums[mid]:
+                    r = mid - 1
+                else:
+                    l = mid + 1
+            else:
+                if nums[mid] <= target < nums[r]:
+                    l = mid + 1
+                else:
+                    r = mid - 1
 
-            if nums[m] > nums[r]:
-                l = m + 1
+        if target == nums[r]:
+            return r
 
-            elif nums[m] < nums[r]:
-                r = m
-
-        ans = self.binary_search(nums[l:], target) + l
-        ans = self.binary_search(nums[:l], target) if ans - l == -1 else ans 
-        
-        return ans 
-
-    def binary_search(self, nums: List[int], target: int) -> int:
-        if len(nums) == 0: return -1
-
-        l, r = 0, len(nums)
-        while l != r:
-            m = (l + r) // 2
-
-            if nums[m] == target:
-                return m
-
-            elif nums[m] > target:
-                r = m
-
-            elif nums[m] < target:
-                l = m + 1
-        
         return -1
+    
 
-a = Solution()
+def test():
+    s = Solution()
 
-print(a.search([1], 1))
-print(a.search([4,5,6,7,0,1,2], 0))
-print(a.search([1], 0))
-print(a.search([1,2,3,4,5,6,7,8,9] , 3))
-print(a.search([4,5,6,7,0,1,2], 3))
+    assert s.search([4, 5, 6, 7, 8, 1, 2], 8) == 4
+    assert s.search([4,5,6,7,0,1,2], 6) == 2
+    assert s.search([1], 1) == 0
+    assert s.search([4,5,6,7,0,1,2], 0) == 4
+    assert s.search([4,5,6,7,0,1,2], 3) == -1
+    assert s.search([1], 0) == -1
+
+
+def main():
+    test()
+
+
+if __name__ == "__main__":
+    main()
