@@ -1,35 +1,58 @@
+from bisect import bisect_left
+
+
 class List(list):
     pass
 
 
-class Solution:
+class Solution: 
     def lengthOfLIS(self, nums: List[int]) -> int:
-        dp = [1] * len(nums)
 
-        """
-        time  --- O(n^2)
-        space --- O(n)
-        """        
+        # With binary search
+        sub = []
+        for x in nums:
+            if len(sub) == 0 or sub[-1] < x:
+                sub.append(x)
+            else:
+                idx = bisect_left(sub, x) 
+                sub[idx] = x 
+        return len(sub)
 
-        for i in range(len(nums) - 1, -1, -1):
-            for j in range(i + 1, len(nums)):
-                if nums[i] < nums[j]:
-                    dp[i] = max(dp[j] + 1, dp[i])
+        '''
+        the most common
+        dp = [1] + [0] * (len(nums) - 1)
 
-        return max(dp)
-
-"""
-there's solution with O(nlogn) time complexity
-but it's quite more difficult
-"""
+        for i in range(1, len(nums)):
+            temp = 0
+            for j in range(0, i):
+                if nums[i] > nums[j]:
+                    temp = max(dp[j], temp)
+            dp[i] = temp + 1
+        
+        return max(dp)'''
+        
+        '''
+        mine
+        dp = []
+        for v in nums:
+            cur = [v]
+            for seq in dp:
+                if v > seq[-1]:
+                    cur = max(seq + [v], cur, key=len)
+            dp.append(cur)
+        
+        return len(max(dp, key=len))'''
 
 
 def test():
     s = Solution()
 
-    assert s.lengthOfLIS([10,9,2,5,3,7,101,18]) == 4
-    assert s.lengthOfLIS([0,1,0,3,2,3])         == 4
-    assert s.lengthOfLIS([7,7,7,7,7,7,7])       == 1
+    response = s.lengthOfLIS([0,1,0,3,2,3])         
+    assert response == 4, response
+    response = s.lengthOfLIS([10,9,2,5,3,7,101,18])
+    assert response == 4, response
+    response = s.lengthOfLIS([7,7,7,7,7,7,7])       
+    assert response == 1, response
 
 
 def main():
