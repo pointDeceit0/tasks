@@ -3,21 +3,19 @@ class List(list):
 
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        '''
-        time  --- O(n)      but actually O(n) + O(n) + creation. It's important here, i think
-        space --- O(n)
-        '''
-        if len(nums) < 4: return max(nums)
-        dp1, dp2 = [0] * (len(nums) + 3), [0] * (len(nums) + 3)
+        n = len(nums)
+        dp1 = [0] * (n + 3)
+        dp2 = [0] * (n + 3)
 
-        for i in range(len(nums) - 1, 0, -1):
-            dp1[i] = max(nums[i] + dp1[i + 3], nums[i] + dp1[i + 2])
-
-        for i in range(3, len(nums) + 2):
-            dp2[i] = max(nums[i - 3] + dp2[i - 3], nums[i - 3] + dp2[i - 2])
+        for i in range(n - 1, 0, -1):
+            dp1[i] = max(dp1[i + 2], dp1[i + 3]) + nums[i]
+        
+        for i in range(n - 2, -1, -1):
+            dp2[i] = max(dp2[i + 2], dp2[i + 3]) + nums[i]
 
         return max(max(dp1), max(dp2))
 
+        
 
 def test():
     a = Solution()
