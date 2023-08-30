@@ -4,46 +4,15 @@ class List(list):
 
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
-        '''
-        First version - it's very bad 
-        cache = [False] * (len(nums) - 1) + [True]
+        # time  --- O(n)
+        # space --- O(1)
+        counter = 0
+        for i in range(len(nums) - 2, -1, -1):
+            counter += 1
+            if nums[i] >= counter:
+                counter = 0
 
-        def _dp(i: int) -> None:
-            if i < 0: return 
-            if any(cache[i : min(len(nums) - 1, nums[i] + i) + 1]):
-                cache[i] = True
-
-            _dp(i - 1)
-
-        _dp(len(nums) - 2)
-        return cache[0]'''
-
-        '''
-        time  --- O(n)
-        space --- O(1)
-
-        nums[-1] = 1
-
-        def _dp(i: int) -> None:
-            if i < 0: return 
-            for j in range(i + 1, min(len(nums) - 1, nums[i] + i) + 1):
-                if nums[j]:
-                    nums[i] = 1
-                    break
-            else:
-                nums[i] = 0
-
-            _dp(i - 1)
-
-        _dp(len(nums) - 2)
-        return nums[0]'''
-
-        goal = len(nums) - 1
-        for i in range(len(nums) - 1, -1, -1):
-            if nums[i] + i >= goal:
-                goal = i
-        return not goal
-        
+        return True if not counter else False
 
 
 
