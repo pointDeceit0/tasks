@@ -4,35 +4,22 @@ class List(list):
 
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        '''
-        time  --- O(n*m)
-        space --- O(1), because caching in-place
-        '''
-        n, m = len(grid), len(grid[0])
-        def dfs(i, j):
-            # check if outside the field
-            if (i == n or j == m or i < 0 or j < 0 or grid[i][j] == "0"): return True
+        
+        def _dfs(y: int, x: int) -> None:
+            grid[y][x] = '0'
+            for i, j in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                if not(y + i < 0 or x + j < 0 or y + i == len(grid) or x + j == len(grid[0]) or not (grid[y + i][x + j] == '1')):
+                    _dfs(y + i, x + j)
 
-            # check if already was here
-            if grid[i][j] == "2": return True
-            # check if current island and mark that was here
-            if grid[i][j] == "1": grid[i][j] = "2"
 
-            dfs(i + 1, j)
-            dfs(i, j + 1)
-            dfs(i - 1, j)
-            dfs(i, j - 1)
-            
-            # it is the moment, when tracker returns to start position, he went all over the island 
-            return False
+        counter = 0
+        for y in range(len(grid)):
+            for x in range(len(grid[0])):
+                if grid[y][x] == '1':
+                    counter += 1
+                    _dfs(y, x)
 
-        ans = 0
-        for i in range(n):
-            for j in range(m):
-                if not dfs(i, j):
-                    ans += 1
-
-        return ans
+        return counter
 
 
 def test():
@@ -68,7 +55,7 @@ def test():
     ]) == 1
     assert a.numIslands([
                       []
-    ])
+    ]) == 0
     assert a.numIslands([
                       [],
                       [],
