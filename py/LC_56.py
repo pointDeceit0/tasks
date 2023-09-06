@@ -3,33 +3,19 @@ class List(list):
 
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        ''' My solution
-        time  --- O(n) + O(nlogn)
-        space --- O(n)
-        '''
-        intervals = sorted(intervals, key=lambda x: x[0])
-        ans = []
-        i = 0
-        while i != len(intervals):
-            cur = intervals[i]
-            while i + 1 != len(intervals) and cur[1] >= intervals[i + 1][0]:
-                cur[1] = max(cur[1], intervals[i + 1][1])
-                i += 1
-            ans.append(cur)
-            i += 1
-        return ans
-
-        ''' Beauty solution
-        same
-        '''
-        out = []
-        for i in sorted(intervals, key=lambda i: i.start):
-            if out and i.start <= out[-1].end:
-                out[-1].end = max(out[-1].end, i.end)
-            else:
-                out += i,
-        return out
+        intervals.sort(key=lambda x: x[0])
         
+        ans = []
+        overlap_int = intervals[0]
+        for int in intervals[1:]:
+            if int[0] > overlap_int[1]:
+                ans.append(overlap_int)
+                overlap_int = int
+            else:
+                overlap_int[1] = max(overlap_int[1], int[1])
+        ans.append(overlap_int)
+        return ans 
+                
 
 def test():
     s = Solution()
