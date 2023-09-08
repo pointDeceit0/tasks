@@ -5,20 +5,15 @@ class ListNode:
 
 
 class Solution:
-    class Solution:
-        def hasCycle(self, head: ListNode) -> bool:
-            '''
-            time  --- O(n)
-            space --- O(1)
-            '''
-            f, s = head, head
-
-            while f and f.next:
-                s = s.next
-                f = f.next.next
-                if f == s: return True
-
+    def hasCycle(self, head: ListNode) -> bool:
+        while head is not None and head.val is not None:
+            head.val = None
+            head = head.next
+        
+        if head is None:
             return False
+        return True
+
 
         
 def test():
